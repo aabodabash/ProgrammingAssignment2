@@ -19,8 +19,9 @@
 ## [1,]    1    0
 ## [2,]    0    1
 
-## the following function create a Square Matrix  
+## the following function create a Special Matrix  
 ## As a helper to encapsulate matrix opoerations
+## we assuming this is a Square Matrix
 makeCacheMatrix <- function(x = matrix()) {
         invertedMatrix <- NULL
         set <- function(value) {
@@ -28,12 +29,9 @@ makeCacheMatrix <- function(x = matrix()) {
                 invertedMatrix <<- NULL
         }
         get <- function() x
-        setInverse <- function(inverse) invertedMatrix <<- inverse
-        getInverse <- function() invertedMatrix
-        list(set = set,
-             get = get,
-             setInverse = setInverse,
-             getInverse = getInverse)
+        setInverse <- function(inverse){ invertedMatrix <<- inverse}
+        getInverse <- function(){ invertedMatrix}
+        list(set = set,get = get,setInverse = setInverse, getInverse = getInverse)
 }
 
 
@@ -43,8 +41,10 @@ cacheSolve <- function(x, ...) {
         invertdMatrix <- x$getInverse()
         if (!is.null(invertdMatrix)) {
                 message("getting cached inverted Matrix")
+                ## already cached no need to invert it agian  !
                 return(invertdMatrix)
         }
+        ## if not cached, so cach it
         squareMatrix <- x$get()
         invertdMatrix <- solve(squareMatrix, ...)
         x$setInverse(invertdMatrix)
@@ -62,4 +62,6 @@ cacheSolve <- function(x, ...) {
 ## 
 ## cacheSolve(helper)
 ## getting cached inverted Matrix
-
+##     [,1] [,2]
+## [1,]   -2  1.5
+## [2,]    1 -0.5
